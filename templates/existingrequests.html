@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>Current Network Account Requests</h2>
+
+<!-- Adding some style to table (OPTIONAL) -->
+<style type="text/css"> 
+      
+    th:tr{ 
+        color: blue; 
+  
+    } 
+    tr:nth-of-type(2n){ 
+        border: 1px solid black; 
+        background-color: rgba(150, 150, 150, 0.5); 
+  
+    } 
+  
+    td{ 
+        padding: 8px 8px; 
+        border: 1px solid black; 
+    } 
+</style> 
+
+<body>
+      
+<table style="margin-left: 20px;"> 
+<!-- Table headers -->
+    <th> 
+        <tr style="color: green; ">     
+            <td>User ID</td> 
+            <td>Username</td> 
+        </tr> 
+    </th> 
+
+{%for item in data%}           
+<!-- table rows -->
+<tr> 
+    <td>{{item.id}}</td> 
+    <td>{{item.username}}</td>           
+{%endfor%}           
+</tr>         
+</table> 
+
+</body>
+
+{% endblock %}
