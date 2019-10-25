@@ -115,6 +115,7 @@ def resetpass():
         # If account exists show error and validation checks
         if account:
             cursor.execute("UPDATE users SET password='reset' WHERE username=%s", [username])
+            cursor.execute("COMMIT")
             msg = 'Password Reset'
         else:
             msg = 'Password not Reset. Account does not exist.'        
