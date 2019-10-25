@@ -104,10 +104,9 @@ def resetpass():
     # Output message if something goes wrong...
     msg = 'Uh oh register..'
     # Check if "username", "password" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+    if request.method == 'POST' and 'username' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = request.form['password']
         
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -115,16 +114,10 @@ def resetpass():
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
-            msg = 'Account already exists!'
-        elif not re.match(r'[A-Za-z0-9]+', username):
-            msg = 'Username must contain only characters and numbers!'
-        elif not username or not password:
-            msg = 'Please fill out the form!'
+            cursor.execute('UPDATE users SET password = %s WHERE username = %s', ('reset', username))
+            msg = 'Password Reset'
         else:
-            # Account doesnt exists and the form data is valid, now insert new user into users table
-            cursor.execute('INSERT INTO users (username, password) VALUES (%s, %s)', (username, password))
-            mysql.connection.commit()
-            msg = 'You have successfully registered!'        
+            msg = 'Password not Reset. Account does not exist.'        
     elif request.method == 'POST':
         # Form is empty... (no POST data)
         msg = 'Please enter your username!'
