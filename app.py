@@ -107,7 +107,6 @@ def resetpass():
     if request.method == 'POST' and 'username' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        newpass = 'reset'
 
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -115,7 +114,7 @@ def resetpass():
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
-            cursor.execute('UPDATE users SET password = %s WHERE username = %s', newpass, username)
+            cursor.execute('UPDATE users SET password = "reset" WHERE username = %s', [username])
             msg = 'Password Reset'
         else:
             msg = 'Password not Reset. Account does not exist.'        
