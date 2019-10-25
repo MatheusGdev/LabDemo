@@ -98,7 +98,7 @@ def register():
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
 
-# http://localhost:5000/login/register - this will be the registration page, we need to use both GET and POST requests
+# http://localhost:5000/login/resetpass - this will be the registration page, we need to use both GET and POST requests
 @app.route('/login/resetpass', methods=['GET', 'POST'])
 def resetpass():
     # Output message if something goes wrong...
@@ -107,6 +107,7 @@ def resetpass():
     if request.method == 'POST' and 'username' in request.form:
         # Create variables for easy access
         username = request.form['username']
+        newpass = 'reset'
 
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -114,7 +115,7 @@ def resetpass():
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
-            cursor.execute("UPDATE users SET password = 'reset' WHERE username = %s", [username])
+            cursor.execute('UPDATE users SET password = %s WHERE username = %s', (newpass, username))
             msg = 'Password Reset'
         else:
             msg = 'Password not Reset. Account does not exist.'        
