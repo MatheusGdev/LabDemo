@@ -26,7 +26,7 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # Output message if something goes wrong...
-    msg = 'Uh oh....'
+    msg = 'Please Log In'
     # Check if "username" and "password" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
@@ -69,7 +69,7 @@ def logout():
 @app.route('/login/register', methods=['GET', 'POST'])
 def register():
     # Output message if something goes wrong...
-    msg = 'Uh oh register..'
+    msg = 'Sign up!'
     # Check if "username", "password" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
@@ -102,7 +102,7 @@ def register():
 @app.route('/login/resetpass', methods=['GET', 'POST'])
 def resetpass():
     # Output message if something goes wrong...
-    msg = 'Uh oh register..'
+    msg = 'Enter your Username'
     # Check if "username", "password" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form:
         # Create variables for easy access
@@ -114,7 +114,7 @@ def resetpass():
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
-            cursor.execute("UPDATE users SET password = 'reset' WHERE username = %s", username)
+            cursor.execute("UPDATE users SET password = 'reset' WHERE username = %s", [username])
             msg = 'Password Reset'
         else:
             msg = 'Password not Reset. Account does not exist.'        
