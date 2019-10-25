@@ -98,6 +98,39 @@ def register():
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
 
+# http://localhost:5000/login/register - this will be the registration page, we need to use both GET and POST requests
+@app.route('/login/resetpass', methods=['GET', 'POST'])
+def resetpass():
+    # Output message if something goes wrong...
+    msg = 'Uh oh register..'
+    # Check if "username", "password" POST requests exist (user submitted form)
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        # Create variables for easy access
+        username = request.form['username']
+        password = request.form['password']
+        
+        # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM users WHERE username = %s', [username])
+        account = cursor.fetchone()
+        # If account exists show error and validation checks
+        if account:
+            msg = 'Account already exists!'
+        elif not re.match(r'[A-Za-z0-9]+', username):
+            msg = 'Username must contain only characters and numbers!'
+        elif not username or not password:
+            msg = 'Please fill out the form!'
+        else:
+            # Account doesnt exists and the form data is valid, now insert new user into users table
+            cursor.execute('INSERT INTO users (username, password) VALUES (%s, %s)', (username, password))
+            mysql.connection.commit()
+            msg = 'You have successfully registered!'        
+    elif request.method == 'POST':
+        # Form is empty... (no POST data)
+        msg = 'Please enter your username!'
+    # Show registration form with message (if any)
+    return render_template('resetpass.html', msg=msg)
+
 # http://localhost:5000/login/userhome - this will be the user home page, only accessible for loggedin users
 @app.route('/login/userhome')
 def userhome():
