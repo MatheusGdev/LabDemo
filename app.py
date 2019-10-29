@@ -52,8 +52,6 @@ def login():
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect username/password!'
-    elif request.method == 'POST':
-        msg = 'Please fill in all fields.'
     return render_template('index.html', msg=msg)
 
 # http://localhost:5000/login/logout - this will be the logout page
