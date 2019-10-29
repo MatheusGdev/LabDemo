@@ -121,7 +121,7 @@ def resetpass():
         # If account exists show error and validation checks
         if account:
             cursor.execute("UPDATE users SET password=%s WHERE username=%s", [resetpass, username])
-            cursor.execute("COMMIT")
+            mysql.connection.commit()
             msg = 'Password Reset'
         else:
             msg = 'Password not Reset. Account does not exist.'        
