@@ -77,7 +77,8 @@ def register():
         # Create variables for easy access
         username = request.form['username']
         password = hashlib.sha256(request.form['password'].encode()).hexdigest()
-        
+        email = request.form['email']
+
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM users WHERE username = %s', [username])
@@ -85,13 +86,15 @@ def register():
         # If account exists show error and validation checks
         if account:
             msg = 'Account already exists!'
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            msg = 'Invalid email address!'
         elif not re.match(r'[A-Za-z0-9]+', username):
             msg = 'Username must contain only characters and numbers!'
         elif not username or not password:
             msg = 'Please fill out the form!'
         else:
             # Account doesnt exists and the form data is valid, now insert new user into users table
-            cursor.execute('INSERT INTO users (username, password) VALUES (%s, %s)', (username, password))
+            cursor.execute('INSERT INTO users (username, password, email) VALUES (%s, %s, %s)', (username, password, email))
             mysql.connection.commit()
             msg = 'You have successfully registered!'        
     elif request.method == 'POST':
