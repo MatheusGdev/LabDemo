@@ -31,7 +31,7 @@ def login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = request.form['password']
+        password = SHA2(request.form['password'], 0)
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM users WHERE username = %s AND password = %s', (username, password))
@@ -74,7 +74,7 @@ def register():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = request.form['password']
+        password = SHA2(request.form['password'], 0)
         
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -107,14 +107,14 @@ def resetpass():
     if request.method == 'POST' and 'username' in request.form:
         # Create variables for easy access
         username = request.form['username']
-
+        resetpass = SHA2('reset', 0)
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM users WHERE username = %s', [username])
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
-            cursor.execute("UPDATE users SET password='reset' WHERE username=%s", [username])
+            cursor.execute("UPDATE users SET password=%s WHERE username=%s", [resetpass, username])
             cursor.execute("COMMIT")
             msg = 'Password Reset'
         else:
