@@ -32,7 +32,7 @@ def login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = hashlib.sha256(request.form['password'].encode())
+        password = hashlib.sha256(request.form['password'].encode()).digest()
 
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -76,7 +76,7 @@ def register():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = hashlib.sha256(request.form['password'].encode())
+        password = hashlib.sha256(request.form['password'].encode()).digest()
         
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -109,8 +109,8 @@ def resetpass():
     if request.method == 'POST' and 'username' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        resetpass = hashlib.sha256('reset'.encode())
-        
+        resetpass = hashlib.sha256('reset'.encode()).digest()
+
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM users WHERE username = %s', [username])
