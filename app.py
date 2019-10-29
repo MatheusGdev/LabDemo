@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_mysqldb import MySQL
+import hashlib
 import MySQLdb.cursors
 import re
 
@@ -31,7 +32,8 @@ def login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = SHA2(request.form['password'], 0)
+        password = hashlib.sha256(request.form['password'].encode())
+
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM users WHERE username = %s AND password = %s', (username, password))
@@ -74,7 +76,7 @@ def register():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = SHA2(request.form['password'], 0)
+        password = hashlib.sha256(request.form['password'].encode())
         
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -107,7 +109,8 @@ def resetpass():
     if request.method == 'POST' and 'username' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        resetpass = SHA2('reset', 0)
+        resetpass = hashlib.sha256('reset'.encode())
+        
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM users WHERE username = %s', [username])
