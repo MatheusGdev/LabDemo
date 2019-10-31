@@ -112,26 +112,26 @@ def register():
 def resetpass():
     # Output message if something goes wrong...
     msg = 'Enter your Email'
-    # Check if "username", "password" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form:
+    # Check if "email" entered on form
+    if request.method == 'POST' and 'email' in request.form:
         # Create variables for easy access
-        username = request.form['username']
+        email = request.form['email']
         resetpass = hashlib.sha256('reset'.encode()).hexdigest()
 
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM users WHERE username = %s', [username])
+        cursor.execute('SELECT * FROM users WHERE email = %s', [email])
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
-            cursor.execute("UPDATE users SET password=%s WHERE username=%s", [resetpass, username])
+            cursor.execute("UPDATE users SET password=%s WHERE email=%s", [resetpass, email])
             mysql.connection.commit()
             msg = 'Password Reset'
         else:
             msg = 'Password not Reset. Account does not exist.'        
     elif request.method == 'POST':
         # Form is empty... (no POST data)
-        msg = 'Please enter your username!'
+        msg = 'Please enter your email!'
     # Show registration form with message (if any)
     return render_template('resetpass.html', msg=msg)
 
