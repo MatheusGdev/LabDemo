@@ -83,17 +83,21 @@ def register():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM users WHERE username = %s', [username])
         account = cursor.fetchone()
+        cursor.execute('SELECT * FROM users WHERE email = %s', [email])
+        emailUsed = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
             msg = 'Account already exists!'
+        elif emailUsed:
+            msg = 'Email already in use!'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             msg = 'Invalid email address!'
         elif not re.match(r'[A-Za-z0-9]+', username):
             msg = 'Username must contain only characters and numbers!'
-        elif not username or not password:
+        elif not username or not password or not email:
             msg = 'Please fill out the form!'
         else:
-            # Account doesnt exists and the form data is valid, now insert new user into users table
+            # Account doesnt exists, email is not in use, and the form data is valid. insert new user into users table
             cursor.execute('INSERT INTO users (username, password, email) VALUES (%s, %s, %s)', (username, password, email))
             mysql.connection.commit()
             msg = 'You have successfully registered!'        
@@ -107,7 +111,7 @@ def register():
 @app.route('/login/resetpass', methods=['GET', 'POST'])
 def resetpass():
     # Output message if something goes wrong...
-    msg = 'Enter your Username'
+    msg = 'Enter your Email'
     # Check if "username", "password" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form:
         # Create variables for easy access
