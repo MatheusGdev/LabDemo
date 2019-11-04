@@ -156,8 +156,13 @@ def adminhome():
     return redirect(url_for('login'))
 
 # http://localhost:5000/login/profile - this will be the profile page, only accessible for loggedin users
-@app.route('/login/profile')
+@app.route('/login/profile', methods=['GET', 'POST'])
 def profile():
+    if request.method == 'POST':
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('DELETE FROM users WHERE id = %s', [session['id']])
+        mysql.connection.commit()
+        return redirect(url_for('logout'))
     # Check if user is loggedin
     if 'loggedin' in session:
         # We need all the account info for the user so we can display it on the profile page
