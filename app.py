@@ -207,7 +207,7 @@ def netaccrequest():
 
 @app.route('/login/approverequest', methods=['GET', 'POST'])
 def approverequest():
-#    if request.method == 'POST' and 'RequestUserId' in request.form:
+    if request.method == 'POST' and 'RequestUserId' in request.form:
         netaccuserid = request.form['RequestUserId']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('UPDATE netaccrequests SET approved=1 WHERE userid=%s', [netaccuserid])
