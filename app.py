@@ -232,6 +232,16 @@ def approverequest():
         mysql.connection.commit()
     
     return redirect(url_for('netaccrequest'))
+
+@app.route('/login/denyrequest', methods=['GET', 'POST'])
+def denyrequest():
+    if request.method == 'POST' and 'RequestUserId' in request.form:
+        netaccuserid = request.form['RequestUserId']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("UPDATE netaccrequests SET status='DENIED' WHERE userid=%s", [netaccuserid])
+        mysql.connection.commit()
+    
+    return redirect(url_for('netaccrequest'))
 '''
 @app.route('/login/existingrequests', methods=['GET', 'POST'])
 def existingrequests():

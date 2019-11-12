@@ -45,7 +45,13 @@
             <input id="RequestUserId" name="RequestUserId" type="hidden" value="{{item.id}}">
             <button type="submit"> Approve </button>
         </form>
-    </td>          
+    </td>   
+    <td>
+        <form action="{{ url_for('denyrequest') }}" method="POST">
+            <input id="RequestUserId" name="RequestUserId" type="hidden" value="{{item.id}}">
+            <button type="submit"> Deny </button>
+        </form>
+    </td>         
 {%endfor%}           
 </tr>         
 </table> 
