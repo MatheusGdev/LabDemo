@@ -163,6 +163,7 @@ def profile():
         cursor.execute('DELETE FROM users WHERE id = %s', [session['id']])
         mysql.connection.commit()
         return redirect(url_for('logout'))
+
     # Check if user is loggedin
     if 'loggedin' in session:
         # We need all the account info for the user so we can display it on the profile page
@@ -208,7 +209,6 @@ def netaccrequest():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
         mysql.connection.commit()
-
         return render_template('requestsubmitted.html')
 
 
