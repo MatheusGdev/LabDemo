@@ -160,11 +160,14 @@ def adminhome():
 @app.route('/login/profile', methods=['GET', 'POST'])
 def profile():
     if request.method == 'POST':
+        redirect(url_for('profile') + '#confirmDelAcc')
+'''
+    if request.method == 'POST':
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('DELETE FROM users WHERE id = %s', [session['id']])
         mysql.connection.commit()
         return redirect(url_for('logout'))
-
+'''
     # Check if user is loggedin
     if 'loggedin' in session:
         # We need all the account info for the user so we can display it on the profile page
