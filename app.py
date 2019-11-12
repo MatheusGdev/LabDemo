@@ -186,10 +186,37 @@ def profile():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM users WHERE id = %s', [session['id']])
         account = cursor.fetchone()
+
+        if request.method == 'POST' and 'password' in request.form and 'repassword' in request.form:
+            if request.form['password'] == request.form['repassword']:
+                hashedPass = hashlib.sha256(request.form['password'].encode()).hexdigest()
+                userid = session['id']
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('SELECT FROM users where id = %s AND password = %s', [userid, hashedPass])
+                correctPass = cursor.fetchone()
+
+                if correctPass:
+                    cursor.execute('DELETE FROM users WHERE id = %s', [session['id']])
+                    mysql.connection.commit()
+                    return redirect(url_for('logout'))
+                else:
+                    # Invalid password
+                    return render_template('profile.html', account=account, msg='Invalid Password')
+
+            else:
+                # Passwords do not match
+                return render_template('profile.html', account=account, msg='Passwords do not match')
+                
+        elif request.method == 'POST':
+            return render_template('profile.html', account=account, msg='Please enter and confirm password')
+
+
         # Show the profile page with account info
         return render_template('profile.html', account=account)
-    # User is not loggedin redirect to login page
-    return redirect(url_for('login'))
+
+    else:
+        # User is not loggedin redirect to login page
+        return redirect(url_for('login'))
 
 @app.route('/login/netaccrequest', methods=['GET', 'POST'])
 def netaccrequest():
