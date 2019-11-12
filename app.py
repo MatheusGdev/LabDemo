@@ -201,18 +201,25 @@ def netaccrequest():
 
         # Request doesn't exist. Allow user to submit new request
         else:
+            if request.method == 'POST':
+                # Request does not currently exist. Create one.
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
+                mysql.connection.commit()
+                
             return render_template('netaccrequest.html')
 
+'''
     # User submits request for network account
     if request.method == 'POST':
         userid = session['id']
-        
+
         # Request does not currently exist. Create one.
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
         mysql.connection.commit()
         return render_template('requestsubmitted.html')
-
+'''
 
 @app.route('/login/approverequest', methods=['GET', 'POST'])
 def approverequest():
