@@ -32,6 +32,7 @@
         <tr style="color: green; ">     
             <td>User ID</td> 
             <td>Username</td> 
+            <td>Status</td>
         </tr> 
     </th> 
 
@@ -40,6 +41,7 @@
 <tr> 
     <td>{{item.id}}</td> 
     <td>{{item.username}}</td> 
+    <td>{{item.status}}</td>
     <td>
         <form action="{{ url_for('approverequest') }}" method="POST">
             <input id="RequestUserId" name="RequestUserId" type="hidden" value="{{item.id}}">

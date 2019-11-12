@@ -180,7 +180,7 @@ def netaccrequest():
     # Show admin page (list requests)
     if session['admin']:
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT id, username FROM users WHERE id in ( SELECT userid FROM netaccrequests )')
+        cursor.execute('SELECT id, username, status FROM users, netaccrequests WHERE id in ( SELECT userid FROM netaccrequests )')
         data = cursor.fetchall()
 
         return render_template('existingrequests.html', data=data)  
