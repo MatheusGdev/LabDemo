@@ -197,7 +197,7 @@ def netaccrequest():
 
         # If request already exists for this user
         if userrequest:
-            return render_template('requestnotsubmitted.html')
+            return render_template('requestnotsubmitted.html', data=userrequest)
 
         # Request doesn't exist. Allow user to submit new request
         else:
@@ -206,7 +206,7 @@ def netaccrequest():
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
                 mysql.connection.commit()
-                return render_template('requestnotsubmitted.html')
+                # return render_template('requestnotsubmitted.html', data=status)
                 
             return render_template('netaccrequest.html')
 
