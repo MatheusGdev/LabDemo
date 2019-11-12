@@ -170,7 +170,7 @@ def profile():
                 hashedPass = hashlib.sha256(request.form['password'].encode()).hexdigest()
                 userid = session['id']
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-                cursor.execute('SELECT FROM users where id = %s AND password = %s', [userid, hashedPass])
+                cursor.execute('SELECT * FROM users WHERE id = %s AND password = %s', [userid, hashedPass])
                 correctPass = cursor.fetchone()
 
                 if correctPass:
