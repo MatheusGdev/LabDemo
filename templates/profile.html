@@ -21,11 +21,6 @@
         </tr>
     </table>
 
-    <p>Press button to delete your account. This cannot be reversed!</p>
-    <form action="{{ url_for('profile') }}" method="post" autocomplete="off">
-        <input type="submit" value="Delete Account">
-    </form>
-
 </div>
 
 <div>
@@ -34,14 +29,17 @@
     <p>Enter your password to delete account</p>
     <form action="{{ url_for('profile') }}" method="post" autocomplete="off">
         <label for="password">
-			<i class="fas fa-user"></i>
+			<i class="fas fa-lock"></i>
 		</label>
-		<input type="password" name="password" placeholder="Password" id="password" required>
+        <input type="password" name="password" placeholder="Password" id="password" required>
+        
 		<label for="repassword">
 			<i class="fas fa-lock"></i>
 		</label>
-		<input type="password" name="repassword" placeholder="Confirm Password" id="repassword" required>
+        <input type="password" name="repassword" placeholder="Confirm Password" id="repassword" required>
+        
         <input type="submit" value="Delete Account">
+        <div class="msg">{{ msg }}</div>
     </form>
 
 </div>
