@@ -25,13 +25,21 @@
     <form action="{{ url_for('profile') }}" method="post" autocomplete="off">
         <input type="submit" value="Delete Account">
     </form>
-    
-    <p>
-    <a data-toggle="modal" data-target="#myModal">Click Here</a>
-    </p>
+
 </div>
 
-<div id="myModal" class="modal fade" role="dialog">
-    <p>Hello There</p>
+<div>
+    <h2>Test Div</h2>
+    <button onclick="document.getElementById('id01')">Open Modal</button>
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content">
+          <div class="w3-container">
+            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+            <p>Some text. Some text. Some text.</p>
+            <p>Some text. Some text. Some text.</p>
+          </div>
+        </div>
+      </div>
 </div>
+
 {% endblock %}
