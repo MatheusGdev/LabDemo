@@ -28,18 +28,22 @@
 
 </div>
 
-<div class="w3-container">
-    <h2>W3.CSS Modal</h2>
-    <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Open Modal</button>
-    <div id="id01" class="w3-modal">
-        <div class="w3-modal-content">
-          <div class="w3-container">
-            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-            <p>Some text. Some text. Some text.</p>
-            <p>Some text. Some text. Some text.</p>
-          </div>
-        </div>
-      </div>
+<div>
+    <p>Want to delete your account?</p>
+
+    <p>Enter your password to delete account</p>
+    <form action="{{ url_for('profile') }}" method="post" autocomplete="off">
+        <label for="password">
+			<i class="fas fa-user"></i>
+		</label>
+		<input type="password" name="password" placeholder="Password" id="password" required>
+		<label for="repassword">
+			<i class="fas fa-lock"></i>
+		</label>
+		<input type="password" name="repassword" placeholder="Confirm Password" id="repassword" required>
+        <input type="submit" value="Delete Account">
+    </form>
+
 </div>
 
 {% endblock %}
