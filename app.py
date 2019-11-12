@@ -176,34 +176,41 @@ def profile():
 
 @app.route('/login/netaccrequest', methods=['GET', 'POST'])
 def netaccrequest():
-    if request.method == 'POST':
-        # Create variables for easy access
-        userid = session['id']
-        
-        # Check if request already exists for this user
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM netaccrequests WHERE userid = %s', [userid])
-        userrequest = cursor.fetchone()
-        # If account exists show error and validation checks
-        if userrequest:
-            return render_template('requestnotsubmitted.html')
-        else:
-            # Request does not currently exist. Create one.
-            cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
-            mysql.connection.commit()
-            return render_template('requestsubmitted.html')
-    # Show request page
+    # Show admin page (list requests)
     if session['admin']:
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        #cursor.execute('SELECT users.userid, users.username FROM users JOIN netaccrequests on netaccrequests.userid = users.userid')
         cursor.execute('SELECT id, username FROM users WHERE id in ( SELECT userid FROM netaccrequests )')
         data = cursor.fetchall()
 
-
-        return render_template('existingrequests.html', data=data)    
-        #return redirect(url_for('existingrequests'))
+        return render_template('existingrequests.html', data=data)  
+    
+    # Not admin
     else:
-        return render_template('netaccrequest.html') 
+        # Create variables for easy access
+        userid = session['id']
+    
+        # Check if request already exists for this user
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM netaccrequests where userid = %s', [userid])
+        userrequest = cursor.fetchone()
+
+        # If request already exists for this user
+        if userrequest:
+            return render_template('requestnotsubmitted.html')
+
+        # Request doesn't exist. Allow user to submit new request
+        else:
+            return render_template('netaccrequest.html')
+
+    # User submits request for network account
+    if request.method == 'POST':
+        # Request does not currently exist. Create one.
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
+        mysql.connection.commit()
+
+        return render_template('requestsubmitted.html')
+
 
 @app.route('/login/approverequest', methods=['GET', 'POST'])
 def approverequest():
