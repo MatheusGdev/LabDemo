@@ -206,6 +206,7 @@ def netaccrequest():
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
                 mysql.connection.commit()
+                time.sleep(5)
                 # return render_template('requestnotsubmitted.html', data=status)
                 
             return render_template('netaccrequest.html')
