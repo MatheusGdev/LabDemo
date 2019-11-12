@@ -158,28 +158,6 @@ def adminhome():
 # http://localhost:5000/login/profile - this will be the profile page, only accessible for loggedin users
 @app.route('/login/profile', methods=['GET', 'POST'])
 def profile():
-    if request.method == 'POST' and 'password' in request.form and 'repassword' in request.form:
-        if request.form['password'] == request.form['repassword']:
-            hashedPass = hashlib.sha256(request.form['password'].encode()).hexdigest()
-            userid = session['id']
-            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute('SELECT FROM users where id = %s AND password = %s', [userid, hashedPass])
-            account = cursor.fetchone()
-
-            if account:
-                cursor.execute('DELETE FROM users WHERE id = %s', [session['id']])
-                mysql.connection.commit()
-                return redirect(url_for('logout'))
-            else:
-                #invalid password
-                return render_template('profile'.html, account=account, msg='Invalid Password')
-
-        else:
-            #passwords do not match
-            return render_template('profile.html', account=account, msg='Passwords do not match')
-    else:
-        return render_template('profile.html', account=account, msg='Please enter and confirm password')
-
     # Check if user is loggedin
     if 'loggedin' in session:
         # We need all the account info for the user so we can display it on the profile page
@@ -206,7 +184,7 @@ def profile():
             else:
                 # Passwords do not match
                 return render_template('profile.html', account=account, msg='Passwords do not match')
-                
+
         elif request.method == 'POST':
             return render_template('profile.html', account=account, msg='Please enter and confirm password')
 
