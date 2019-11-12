@@ -160,7 +160,7 @@ def adminhome():
 @app.route('/login/profile', methods=['GET', 'POST'])
 def profile():
     if request.method == 'POST':
-        redirect(url_for('profile') + '#confirmDelAcc')
+        return redirect(url_for('profile') + '#confirmDelAcc')
 '''
     if request.method == 'POST':
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
