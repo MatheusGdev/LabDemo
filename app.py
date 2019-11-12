@@ -159,10 +159,6 @@ def adminhome():
 # http://localhost:5000/login/profile - this will be the profile page, only accessible for loggedin users
 @app.route('/login/profile', methods=['GET', 'POST'])
 def profile():
-'''
-    if request.method == 'POST':
-        return redirect(url_for('profile') + '#confirmDelAcc')
-'''
     if request.method == 'POST':
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('DELETE FROM users WHERE id = %s', [session['id']])
