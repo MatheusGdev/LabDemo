@@ -164,9 +164,9 @@ def profile():
             userid = session['id']
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.execute('SELECT FROM users where id = %s AND password = %s', [userid, hashedPass])
-            account = cursor.fetchone()
+            accountExists = cursor.fetchone()
 
-            if account:
+            if accountExists:
                 cursor.execute('DELETE FROM users WHERE id = %s', [session['id']])
                 mysql.connection.commit()
                 return redirect(url_for('logout'))
