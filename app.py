@@ -3,6 +3,7 @@ from flask_mysqldb import MySQL
 import hashlib
 import MySQLdb.cursors
 import re
+import time
 
 app = Flask(__name__)
 
@@ -211,18 +212,6 @@ def netaccrequest():
                 
             return render_template('netaccrequest.html')
 
-'''
-    # User submits request for network account
-    if request.method == 'POST':
-        userid = session['id']
-
-        # Request does not currently exist. Create one.
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
-        mysql.connection.commit()
-        return render_template('requestsubmitted.html')
-'''
-
 @app.route('/login/approverequest', methods=['GET', 'POST'])
 def approverequest():
     if request.method == 'POST' and 'RequestUserId' in request.form:
@@ -242,35 +231,6 @@ def denyrequest():
         mysql.connection.commit()
     
     return redirect(url_for('netaccrequest'))
-'''
-@app.route('/login/existingrequests', methods=['GET', 'POST'])
-def existingrequests():
-
-
-
-
-    if request.method == 'POST':
-        # Create variables for easy access
-        userid = session['id']
-        
-        # Check if request already exists for this user
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM netaccrequests WHERE userid = %s', [userid])
-        userrequest = cursor.fetchone()
-        # If account exists show error and validation checks
-        if userrequest:
-            return render_template('requestnotsubmitted.html')
-        else:
-            # Request does not currently exist. Create one.
-            cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
-            mysql.connection.commit()
-            return render_template('requestsubmitted.html')
-    # Show request page
-    if session['admin']:
-        return redirect(url_for('existingrequests'))
-    else:
-        return render_template('netaccrequest.html') 
-'''
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0',ssl_context=('cert.pem', 'key.pem'))
