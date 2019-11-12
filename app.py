@@ -3,7 +3,6 @@ from flask_mysqldb import MySQL
 import hashlib
 import MySQLdb.cursors
 import re
-import time
 
 app = Flask(__name__)
 

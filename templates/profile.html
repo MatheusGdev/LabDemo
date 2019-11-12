@@ -25,6 +25,12 @@
     <form action="{{ url_for('profile') }}" method="post" autocomplete="off">
         <input type="submit" value="Delete Account">
     </form>
+    
+    <a data-toggle="modal" data-target="#myModal">Click Here</a>
+
 </div>
 
+<div id="myModal" class="modal fade" role="dialog">
+    <p>Hello There</p>
+</div>
 {% endblock %}
