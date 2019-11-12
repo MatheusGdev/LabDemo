@@ -205,6 +205,8 @@ def netaccrequest():
 
     # User submits request for network account
     if request.method == 'POST':
+        userid = session['id']
+        
         # Request does not currently exist. Create one.
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('INSERT INTO netaccrequests (userid) VALUES (%s)', [userid])
