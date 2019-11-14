@@ -100,7 +100,8 @@ def register():
             # Account doesnt exists, email is not in use, and the form data is valid. insert new user into users table
             cursor.execute('INSERT INTO users (username, password, email) VALUES (%s, %s, %s)', (username, password, email))
             mysql.connection.commit()
-            msg = 'You have successfully registered!'        
+            msg = 'You have successfully registered!'  
+                  
     elif request.method == 'POST':
         # Form is empty... (no POST data)
         msg = 'Please fill out the form!'
