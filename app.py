@@ -27,12 +27,14 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # Output message if something goes wrong...
-    msg = 'Please Log In'    
+    msg = 'Please Log In'
+    
     # If logged in user attempts to reach login page
     if 'loggedin' in session and session['admin']:
         return redirect(url_for('adminhome'))
     elif 'loggedin' in session:
         return redirect(url_for('userhome'))
+
     # Check if "username" and "password" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
