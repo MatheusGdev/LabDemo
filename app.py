@@ -28,7 +28,7 @@ def home():
 def login():
     # Output message if something goes wrong...
     msg = 'Please Log In'
-    
+
     # If logged in user attempts to reach login page
     if 'loggedin' in session and session['admin']:
         return redirect(url_for('adminhome'))
@@ -142,6 +142,13 @@ def resetpass():
         msg = 'Please enter your email!'
     # Show registration form with message (if any)
     return render_template('resetpass.html', msg=msg)
+
+@app.route('/login/homepage')
+def homepage():
+    if session['admin']:
+        return redirect(url_for('adminhome'))
+    else:
+        return redirect(url_for('userhome'))
 
 # http://localhost:5000/login/userhome - this will be the user home page, only accessible for loggedin users
 @app.route('/login/userhome')
