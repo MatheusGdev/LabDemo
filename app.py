@@ -77,7 +77,6 @@ def register():
         return redirect(url_for('adminhome'))
     elif: 'loggedin' in session:
         return redirect(url_for('userhome'))
-        
     # Check if "username", "password" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
