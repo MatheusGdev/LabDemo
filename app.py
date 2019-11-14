@@ -72,6 +72,12 @@ def logout():
 def register():
     # Output message if something goes wrong...
     msg = 'Sign up!'
+    # If logged in user attempts to reach login page
+    if 'loggedin' in session and session['admin']:
+        return redirect(url_for('adminhome'))
+    elif: 'loggedin' in session:
+        return redirect(url_for('userhome'))
+        
     # Check if "username", "password" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
@@ -101,7 +107,7 @@ def register():
             cursor.execute('INSERT INTO users (username, password, email) VALUES (%s, %s, %s)', (username, password, email))
             mysql.connection.commit()
             msg = 'You have successfully registered!'  
-                  
+
     elif request.method == 'POST':
         # Form is empty... (no POST data)
         msg = 'Please fill out the form!'
