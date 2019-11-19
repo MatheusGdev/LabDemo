@@ -266,7 +266,7 @@ def denyrequest():
     
     return redirect(url_for('netaccrequest'))
 
-@app.route('/secret')#, methods=['GET', 'POST'])
+@app.route('/secret', methods=['GET', 'POST'])
 def secret():
     #if request.method == 'POST' and 'name' in request.form:
     return render_template('secret.html')
