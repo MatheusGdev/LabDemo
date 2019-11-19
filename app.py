@@ -269,7 +269,8 @@ def denyrequest():
 @app.route('/secret', methods=['GET', 'POST'])
 def secret():
     if request.method == 'POST' and 'name' in request.form:
-        return "hello, %s" % request.form['name']
+        #"hello, %s" % request.form['name']
+        return render_template('secret.html', msg=request.form['name'])
     return render_template('secret.html')
 
 if __name__ == "__main__":
