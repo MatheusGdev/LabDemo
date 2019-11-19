@@ -266,5 +266,11 @@ def denyrequest():
     
     return redirect(url_for('netaccrequest'))
 
+@app.route('/secret', methods=['GET', 'POST'])
+def secret():
+    if request.method == 'POST' and 'name' in request.form:
+        
+    return render_template('secret.html')
+
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0',ssl_context=('cert.pem', 'key.pem'))
