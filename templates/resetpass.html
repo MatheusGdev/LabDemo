@@ -8,12 +8,14 @@
 	</head>
 	<body>
 		<div class="register">
-			<h1>Register</h1>
+			<h1>Reset Password</h1>
 			<div class="links">
 				<a href="{{ url_for('login') }}">Login</a>
 				<a href="{{ url_for('register') }}">Register</a>
 				<a href="{{ url_for('resetpass') }}" class="active">Forgot Password</a>
 			</div>
+			
+			{% autoescape off %}
 			<form action="{{ url_for('resetpass') }}" method="post" autocomplete="off">
 				<label for="email">
 					<i class="fas fa-user"></i>
@@ -22,6 +24,8 @@
 				<div class="msg">{{ msg }}</div>
 				<input type="submit" value="Reset Password">
 			</form>
+			{% endautoescape %}
+
 		</div>
 	</body>
 </html>
