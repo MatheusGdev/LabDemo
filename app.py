@@ -128,8 +128,10 @@ def resetpass():
 
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM users WHERE email = %s', [email])
+        txtSQL = "SELECT * FROM users WHERE email='" + email + "';"
+        cursor.execute(txtSQL)
         account = cursor.fetchone()
+        
         # If account exists show error and validation checks
         if account:
             cursor.execute("UPDATE users SET password=%s WHERE email=%s", [resetpass, email])
