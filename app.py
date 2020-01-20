@@ -274,4 +274,4 @@ def secret():
     return render_template('secret.html')
 
 if __name__ == "__main__":
-    app.run(debug=True,host='0.0.0.0',ssl_context=('cert.pem', 'key.pem'))
+    app.run(debug=True,host='0.0.0.0')
